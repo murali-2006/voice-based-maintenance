@@ -1,0 +1,551 @@
+/* =====================================================
+   REPORT HISTORY - INDUSTRIAL DESIGN
+===================================================== */
+
+.report-history {
+  width: 100%;
+  max-width: 1100px;
+
+  margin: 0 auto;
+
+  color: #172b3a;
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.report-history-header {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 20px;
+
+  margin-bottom: 26px;
+
+  padding: 25px 28px;
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #102a43 0%,
+      #163c55 55%,
+      #0f8b8d 100%
+    );
+
+  box-shadow:
+    0 10px 30px
+    rgba(16, 42, 67, 0.15);
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+.report-history-header::after {
+  content: "";
+
+  position: absolute;
+
+  width: 180px;
+  height: 180px;
+
+  right: -55px;
+  top: -75px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 255, 255, 0.07);
+}
+
+.report-history-header > div {
+  position: relative;
+  z-index: 1;
+}
+
+.report-history-header h1 {
+  margin: 0 0 8px;
+
+  color: #ffffff;
+
+  font-size: 29px;
+
+  font-weight: 750;
+
+  letter-spacing: -0.4px;
+}
+
+.report-history-header p {
+  margin: 0;
+
+  color: #cfdee7;
+
+  font-size: 14px;
+
+  line-height: 1.6;
+}
+
+/* =====================================================
+   REFRESH BUTTON
+===================================================== */
+
+.refresh-history-button {
+  position: relative;
+
+  z-index: 2;
+
+  min-height: 44px;
+
+  padding: 0 15px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.25);
+
+  border-radius: 10px;
+
+  background:
+    rgba(255, 255, 255, 0.09);
+
+  color: #ffffff;
+
+  font-size: 13px;
+
+  font-weight: 650;
+
+  cursor: pointer;
+
+  backdrop-filter: blur(4px);
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.refresh-history-button:hover {
+  background:
+    rgba(255, 255, 255, 0.16);
+
+  border-color:
+    rgba(255, 255, 255, 0.38);
+
+  transform: translateY(-1px);
+}
+
+.refresh-history-button:disabled {
+  opacity: 0.6;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+.refresh-loading {
+  animation:
+    refreshSpin 0.9s linear infinite;
+}
+
+@keyframes refreshSpin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =====================================================
+   ERROR
+===================================================== */
+
+.history-error {
+  margin-bottom: 18px;
+
+  padding: 13px 16px;
+
+  border-radius: 10px;
+
+  border: 1px solid #efc7c7;
+
+  border-left: 4px solid #c84343;
+
+  background: #fff1f1;
+
+  color: #a93232;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  line-height: 1.5;
+}
+
+/* =====================================================
+   EMPTY STATE / LOADING
+===================================================== */
+
+.no-reports {
+  min-height: 280px;
+
+  padding: 42px 25px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  align-items: center;
+
+  text-align: center;
+
+  background: #ffffff;
+
+  border: 1px dashed #cdd9e2;
+
+  border-radius: 17px;
+
+  box-shadow:
+    0 6px 20px
+    rgba(16, 42, 67, 0.05);
+}
+
+.no-reports-icon {
+  margin-bottom: 12px;
+
+  color: #0f8b8d;
+}
+
+.no-reports h3 {
+  margin: 0 0 8px;
+
+  color: #21384a;
+
+  font-size: 19px;
+}
+
+.no-reports p {
+  max-width: 500px;
+
+  margin: 0;
+
+  color: #71808e;
+
+  font-size: 14px;
+
+  line-height: 1.6;
+}
+
+/* =====================================================
+   REPORT LIST
+===================================================== */
+
+.report-history-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 18px;
+}
+
+/* =====================================================
+   REPORT CARD
+===================================================== */
+
+.history-card {
+  position: relative;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-start;
+
+  gap: 22px;
+
+  padding: 24px;
+
+  border-radius: 17px;
+
+  background: #ffffff;
+
+  border: 1px solid #dce5ec;
+
+  box-shadow:
+    0 7px 22px
+    rgba(16, 42, 67, 0.07);
+
+  overflow: hidden;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.history-card::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 4px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #0f8b8d,
+      #1f5f8b
+    );
+}
+
+.history-card:hover {
+  transform: translateY(-3px);
+
+  border-color: #cbd8e1;
+
+  box-shadow:
+    0 12px 30px
+    rgba(16, 42, 67, 0.10);
+}
+
+/* =====================================================
+   DETAILS
+===================================================== */
+
+.history-details {
+  flex: 1;
+
+  min-width: 0;
+}
+
+.history-details h3 {
+  margin: 0 0 13px;
+
+  color: #173247;
+
+  font-size: 21px;
+
+  font-weight: 700;
+
+  line-height: 1.3;
+}
+
+.history-details p {
+  margin: 9px 0;
+
+  color: #5d6d7b;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+
+  word-break: break-word;
+}
+
+.history-details strong {
+  color: #263d4e;
+
+  font-weight: 700;
+}
+
+/* =====================================================
+   REPORT HIGHLIGHT
+===================================================== */
+
+.history-details p:nth-of-type(5) {
+  margin-top: 16px;
+
+  padding: 15px;
+
+  border-radius: 11px;
+
+  background: #f5f9fb;
+
+  border: 1px solid #e1e9ee;
+
+  color: #415363;
+}
+
+/* =====================================================
+   ANALYZED INFORMATION
+===================================================== */
+
+.history-details p:nth-of-type(6),
+.history-details p:nth-of-type(7),
+.history-details p:nth-of-type(8),
+.history-details p:nth-of-type(9) {
+  padding: 10px 13px;
+
+  border-radius: 9px;
+
+  background: #fbfcfd;
+
+  border-left: 3px solid #0f8b8d;
+}
+
+.history-details p:nth-of-type(8) {
+  border-left-color: #d99518;
+}
+
+.history-details p:nth-of-type(9) {
+  border-left-color: #16805f;
+}
+
+/* =====================================================
+   DELETE BUTTON
+===================================================== */
+
+.delete-button {
+  flex-shrink: 0;
+
+  min-height: 42px;
+
+  padding: 0 14px;
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 7px;
+
+  border: 1px solid #efc7c7;
+
+  border-radius: 9px;
+
+  background: #fff3f3;
+
+  color: #b03939;
+
+  font-size: 13px;
+
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.delete-button:hover {
+  background: #ffe8e8;
+
+  border-color: #e9aaaa;
+
+  transform: translateY(-1px);
+}
+
+.delete-button:active {
+  transform: translateY(0);
+}
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 900px) {
+  .report-history {
+    max-width: 100%;
+  }
+
+  .report-history-header {
+    padding: 23px;
+  }
+
+  .report-history-header h1 {
+    font-size: 26px;
+  }
+
+  .history-card {
+    padding: 21px;
+  }
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 650px) {
+  .report-history-header {
+    flex-direction: column;
+
+    align-items: stretch;
+
+    padding: 20px;
+
+    border-radius: 15px;
+  }
+
+  .report-history-header h1 {
+    font-size: 23px;
+  }
+
+  .report-history-header p {
+    font-size: 13px;
+  }
+
+  .refresh-history-button {
+    width: 100%;
+  }
+
+  .history-card {
+    flex-direction: column;
+
+    gap: 17px;
+
+    padding: 19px;
+
+    border-radius: 14px;
+  }
+
+  .delete-button {
+    width: 100%;
+  }
+}
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 420px) {
+  .report-history-header {
+    padding: 18px;
+  }
+
+  .report-history-header h1 {
+    font-size: 21px;
+  }
+
+  .history-card {
+    padding: 16px;
+  }
+
+  .history-details h3 {
+    font-size: 19px;
+  }
+
+  .history-details p {
+    font-size: 12.5px;
+  }
+}

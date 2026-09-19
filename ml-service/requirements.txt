@@ -1,0 +1,11 @@
+fastapi>=0.110.0
+uvicorn[standard]>=0.28.0
+python-multipart>=0.0.9
+imageio-ffmpeg>=0.5.1
+numpy>=1.26.0
+numba>=0.59.0
+tiktoken>=0.6.0
+tqdm>=4.66.0
+more-itertools>=10.2.0
+torch
+openai-whisper

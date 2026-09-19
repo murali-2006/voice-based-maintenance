@@ -1,0 +1,87 @@
+# ==========================================
+# DEPENDENCIES
+# ==========================================
+node_modules/
+*/node_modules/
+__pycache__/
+*/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+
+# ==========================================
+# SECRETS & ENVIRONMENT VARIABLES (CRITICAL)
+# ==========================================
+.env
+.env.*
+*.env
+!.env.example
+!*/.env.example
+serviceAccountKey.json
+*/serviceAccountKey.json
+firebase-key.json
+*/firebase-key.json
+*.pem
+*.key
+*.cert
+credentials.json
+*/credentials.json
+
+# ==========================================
+# BUILD OUTPUTS
+# ==========================================
+dist/
+*/dist/
+dist-ssr/
+*/dist-ssr/
+build/
+*/build/
+out/
+*/out/
+
+# ==========================================
+# LOGS & TEMPORARY FILES
+# ==========================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+scratch/
+*/scratch/
+temp/
+tmp/
+*.webm
+*.wav
+*.mp3
+*.ogg
+*.m4a
+*.tmp
+
+# ==========================================
+# MODEL WEIGHTS & CACHE
+# ==========================================
+*.pt
+*.pth
+*.onnx
+.cache/
+
+# ==========================================
+# IDE & SYSTEM FILES
+# ==========================================
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

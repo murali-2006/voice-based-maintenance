@@ -1,0 +1,107 @@
+/* =========================================================
+   ENGINEER DASHBOARD LAYOUT
+   ========================================================= */
+
+.dashboard-layout {
+  width: 100%;
+  height: 100vh;
+
+  overflow: hidden;
+
+  background: #f1f5f9;
+}
+
+/* =========================================================
+   MAIN AREA
+   ========================================================= */
+
+.dashboard-main {
+  width: calc(100% - 250px);
+  height: 100vh;
+
+  margin-left: 250px;
+
+  display: flex;
+  flex-direction: column;
+
+  box-sizing: border-box;
+
+  background: #f1f5f9;
+
+  overflow: hidden;
+}
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+
+.dashboard-main > .navbar {
+  flex-shrink: 0;
+
+  width: 100%;
+}
+
+/* =========================================================
+   CONTENT
+   ========================================================= */
+
+.dashboard-content {
+  flex: 1;
+
+  min-height: 0;
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  background: #f1f5f9;
+}
+
+/* =========================================================
+   CONTENT SCROLLBAR
+   ========================================================= */
+
+.dashboard-content::-webkit-scrollbar {
+  width: 7px;
+}
+
+.dashboard-content::-webkit-scrollbar-track {
+  background: #e8eef3;
+}
+
+.dashboard-content::-webkit-scrollbar-thumb {
+  background: #9fb3c4;
+
+  border-radius: 10px;
+}
+
+.dashboard-content::-webkit-scrollbar-thumb:hover {
+  background: #829ab1;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .dashboard-main {
+    width: calc(100% - 230px);
+
+    margin-left: 230px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+  .dashboard-main {
+    width: 100%;
+
+    margin-left: 0;
+  }
+}

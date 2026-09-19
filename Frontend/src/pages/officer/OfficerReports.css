@@ -1,0 +1,405 @@
+/* =========================================================
+   OFFICER REPORTS LAYOUT
+   ========================================================= */
+
+.officer-reports-layout {
+  width: 100%;
+  min-height: 100vh;
+
+  background: #f1f5f9;
+}
+
+/* =========================================================
+   MAIN AREA
+   ========================================================= */
+
+.officer-reports-main {
+  width: calc(100% - 250px);
+  min-height: 100vh;
+
+  margin-left: 250px;
+
+  box-sizing: border-box;
+
+  background: #f1f5f9;
+}
+
+/* =========================================================
+   PAGE
+   ========================================================= */
+
+.officer-reports-page {
+  width: 100%;
+  min-height: 100vh;
+
+  padding: 30px;
+
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.officer-reports-header {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 20px;
+
+  margin-bottom: 24px;
+}
+
+.officer-reports-header h1 {
+  margin: 0;
+
+  color: #102a43;
+
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.officer-reports-header p {
+  margin: 7px 0 0;
+
+  color: #627d98;
+
+  font-size: 14px;
+}
+
+.reports-count {
+  flex-shrink: 0;
+
+  padding: 8px 13px;
+
+  background: #eaf4f4;
+
+  border: 1px solid #c9e1e1;
+
+  border-radius: 16px;
+
+  color: #0a6d70;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   REPORT GRID
+   ========================================================= */
+
+.officer-reports-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 20px;
+}
+
+/* =========================================================
+   REPORT CARD
+   ========================================================= */
+
+.officer-report-card {
+  min-width: 0;
+
+  padding: 21px;
+
+  background: #ffffff;
+
+  border: 1px solid #d9e2ec;
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 4px 14px rgba(16, 42, 67, 0.055);
+}
+
+/* =========================================================
+   CARD HEADER
+   ========================================================= */
+
+.officer-report-card-header {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 15px;
+
+  padding-bottom: 15px;
+
+  border-bottom: 1px solid #e6edf3;
+}
+
+.officer-report-card-header h2 {
+  margin: 0;
+
+  color: #102a43;
+
+  font-size: 18px;
+  font-weight: 700;
+
+  line-height: 1.35;
+}
+
+.machine-code {
+  display: inline-block;
+
+  margin-top: 6px;
+
+  padding: 4px 8px;
+
+  background: #eaf4f4;
+
+  border: 1px solid #c9e1e1;
+
+  border-radius: 6px;
+
+  color: #0a6d70;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.report-date {
+  flex-shrink: 0;
+
+  color: #829ab1;
+
+  font-size: 11px;
+
+  text-align: right;
+}
+
+/* =========================================================
+   REPORT DETAILS
+   ========================================================= */
+
+.officer-report-details {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 11px;
+
+  margin-top: 16px;
+}
+
+.officer-report-row {
+  display: grid;
+
+  grid-template-columns:
+    130px minmax(0, 1fr);
+
+  align-items: start;
+
+  gap: 14px;
+}
+
+.officer-report-row span {
+  color: #627d98;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.officer-report-row strong {
+  min-width: 0;
+
+  color: #334e68;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  line-height: 1.45;
+
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.officer-report-status {
+  display: inline-flex;
+
+  width: fit-content;
+
+  padding: 5px 9px;
+
+  background: #e7f4ee;
+
+  border-radius: 13px;
+
+  color: #16805f !important;
+
+  font-size: 10px !important;
+  font-weight: 700 !important;
+}
+
+/* =========================================================
+   FULL REPORT
+   ========================================================= */
+
+.officer-full-report {
+  margin-top: 18px;
+
+  padding-top: 15px;
+
+  border-top: 1px solid #e1e8ef;
+}
+
+.officer-full-report h3 {
+  margin: 0 0 7px;
+
+  color: #243b53;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.officer-full-report p {
+  margin: 0;
+
+  color: #486581;
+
+  font-size: 12px;
+
+  line-height: 1.65;
+
+  white-space: pre-wrap;
+
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   LOADING / MESSAGE
+   ========================================================= */
+
+.reports-message {
+  padding: 40px;
+
+  background: #ffffff;
+
+  border: 1px solid #d9e2ec;
+
+  border-radius: 12px;
+
+  color: #627d98;
+
+  font-size: 14px;
+
+  text-align: center;
+}
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.reports-empty-state {
+  padding: 45px 25px;
+
+  background: #ffffff;
+
+  border: 1px dashed #c7d3df;
+
+  border-radius: 12px;
+
+  text-align: center;
+}
+
+.empty-icon {
+  margin-bottom: 10px;
+
+  font-size: 30px;
+}
+
+.reports-empty-state h3 {
+  margin: 0;
+
+  color: #243b53;
+
+  font-size: 16px;
+}
+
+.reports-empty-state p {
+  margin: 7px 0 0;
+
+  color: #829ab1;
+
+  font-size: 13px;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+  .officer-reports-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .officer-reports-main {
+    width: calc(100% - 230px);
+
+    margin-left: 230px;
+  }
+
+  .officer-reports-page {
+    padding: 20px;
+  }
+
+  .officer-reports-header {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+  .officer-reports-header h1 {
+    font-size: 25px;
+  }
+
+  .officer-report-card-header {
+    flex-direction: column;
+  }
+
+  .report-date {
+    text-align: left;
+  }
+
+  .officer-report-row {
+    grid-template-columns: 1fr;
+
+    gap: 4px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+  .officer-reports-main {
+    width: 100%;
+
+    margin-left: 0;
+  }
+
+  .officer-reports-page {
+    padding: 15px;
+  }
+
+  .officer-report-card {
+    padding: 17px;
+  }
+}

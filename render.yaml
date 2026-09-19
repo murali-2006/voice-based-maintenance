@@ -1,0 +1,41 @@
+# Render Blueprint Specification
+# Deploys both Express Backend and FastAPI Whisper ML Service
+services:
+  # ==========================================
+  # Node.js Express Backend Service
+  # ==========================================
+  - type: web
+    name: voice-maintenance-backend
+    env: node
+    rootDir: Backend
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: FIREBASE_SERVICE_ACCOUNT
+        sync: false
+      - key: ML_SERVICE_URL
+        fromService:
+          type: web
+          name: voice-maintenance-ml
+          property: host
+      - key: FRONTEND_URL
+        sync: false
+
+  # ==========================================
+  # FastAPI Whisper ML Microservice
+  # ==========================================
+  - type: web
+    name: voice-maintenance-ml
+    env: python
+    rootDir: ml-service
+    plan: starter # Starter plan recommended for 1GB RAM Whisper model loading
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: WHISPER_MODEL
+        value: base
