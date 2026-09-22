@@ -6,7 +6,7 @@ function Navbar() {
     <header className="navbar">
 
       <div className="navbar-title">
-        <h3>Service Engineer Portal</h3>
+        <h3>Service Engineer</h3>
 
         <span>
           Maintenance Management System
