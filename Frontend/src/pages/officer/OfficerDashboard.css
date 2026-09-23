@@ -987,7 +987,7 @@
   }
 
   .officer-dashboard {
-    padding: 15px;
+    padding: 68px 14px 20px 14px;
   }
 
   .officer-section {
@@ -1013,5 +1013,27 @@
   .btn-reject-request {
     width: 100%;
     justify-content: center;
+  }
+}
+
+@media (max-width: 420px) {
+  .officer-dashboard {
+    padding: 66px 10px 20px 10px;
+  }
+
+  .officer-dashboard-header h1 {
+    font-size: 22px;
+  }
+
+  .officer-dashboard-card h2 {
+    font-size: 25px;
+  }
+
+  .officer-section {
+    padding: 12px;
+  }
+
+  .officer-report-item {
+    padding: 12px;
   }
 }

@@ -358,13 +358,15 @@
 
 @media (max-width: 480px) {
   .login-page {
-    padding: 16px;
+    padding: 16px 12px;
   }
 
   .login-container {
     max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
 
-    padding: 34px 22px;
+    padding: 30px 18px;
 
     border-radius: 16px;
   }
@@ -386,16 +388,25 @@
   .login-button {
     min-height: 46px;
   }
+
+  .login-error {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
 }
 
 /* Very Small Screens */
 
 @media (max-width: 350px) {
+  .login-page {
+    padding: 12px 8px;
+  }
+
   .login-container {
-    padding: 30px 18px;
+    padding: 24px 14px;
   }
 
   .login-logo h1 {
-    font-size: 21px;
+    font-size: 20px;
   }
 }

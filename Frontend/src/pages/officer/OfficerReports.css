@@ -397,10 +397,24 @@
   }
 
   .officer-reports-page {
-    padding: 15px;
+    padding: 68px 14px 20px 14px;
   }
 
   .officer-report-card {
-    padding: 17px;
+    padding: 16px;
+  }
+}
+
+@media (max-width: 420px) {
+  .officer-reports-page {
+    padding: 66px 10px 20px 10px;
+  }
+
+  .officer-reports-header h1 {
+    font-size: 21px;
+  }
+
+  .officer-report-card {
+    padding: 13px;
   }
 }

@@ -931,6 +931,21 @@
     padding-top: 68px;
   }
 
+  .machine-analysis-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .machine-analysis-header h1 {
+    font-size: 24px;
+  }
+
+  .btn-register-machine {
+    width: 100%;
+    justify-content: center;
+  }
+
   .machine-card-header {
     flex-direction: column;
   }
@@ -942,6 +957,7 @@
   .selected-reports-header {
     flex-direction: column;
     align-items: flex-start;
+    gap: 10px;
   }
 }
 
@@ -952,7 +968,17 @@
   }
 
   .machine-analysis-page {
-    padding: 15px;
+    padding: 68px 14px 20px 14px;
+  }
+}
+
+@media (max-width: 420px) {
+  .machine-analysis-page {
+    padding: 66px 10px 20px 10px;
+  }
+
+  .machine-analysis-header h1 {
+    font-size: 21px;
   }
 }
 
@@ -1725,4 +1751,133 @@
 
 .report-text-area {
   white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   NATURAL LANGUAGE SEARCH & MODAL RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .nl-search-card {
+    padding: 18px 16px;
+  }
+
+  .nl-results-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nl-result-card {
+    padding: 14px;
+  }
+
+  .nl-report-modal-content {
+    width: 95%;
+    max-height: 90vh;
+  }
+
+  .add-machine-modal {
+    width: 95%;
+    max-height: 90vh;
+    margin: 10px;
+  }
+
+  .modal-form {
+    padding: 18px 16px;
+    gap: 14px;
+  }
+
+  .modal-actions-row {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-modal-cancel,
+  .btn-modal-save {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .nl-search-form {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .nl-search-input-wrap {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .nl-search-actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .nl-lang-select {
+    width: 100%;
+  }
+
+  .nl-btn-voice {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .nl-btn-search {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .nl-result-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .nl-result-date-group {
+    align-self: flex-start;
+  }
+
+  .nl-intent-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .nl-extra-details {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nl-search-card {
+    padding: 14px 12px;
+  }
+
+  .nl-search-header h2 {
+    font-size: 17px;
+  }
+
+  .nl-search-input {
+    font-size: 13px;
+    padding: 10px 36px 10px 12px;
+  }
+
+  .nl-modal-body {
+    padding: 14px 12px;
+  }
+
+  .nl-modal-meta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .machine-card-details {
+    grid-template-columns: 1fr;
+  }
 }

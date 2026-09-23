@@ -1091,3 +1091,150 @@
   font-style: italic;
   margin-top: 4px;
 }
+
+/* =====================================================
+   RESPONSIVE DESIGN (MOBILE & TABLET)
+===================================================== */
+
+@media (max-width: 768px) {
+  .voice-report-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 20px 18px;
+  }
+
+  .voice-report-header h1 {
+    font-size: 22px;
+  }
+
+  .unregistered-machine-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .banner-actions {
+    width: 100%;
+  }
+
+  .btn-refresh-machine {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .card-header.space-between {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .audio-mode-tabs {
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .mode-tab-btn {
+    padding: 9px 14px;
+    font-size: 13px;
+  }
+
+  .audio-preview-card {
+    padding: 16px;
+    max-width: 100%;
+  }
+
+  .preview-top-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .file-name-tag {
+    max-width: 100%;
+  }
+
+  .preview-action-row {
+    flex-wrap: wrap;
+  }
+
+  .btn-secondary-action,
+  .btn-primary-action {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .submit-action-row {
+    justify-content: stretch;
+  }
+
+  .submit-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 20px;
+  }
+
+  .report-card {
+    padding: 18px 16px;
+  }
+
+  .readonly-field-box {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  .diagnostic-metrics-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .voice-report-header {
+    padding: 16px 14px;
+  }
+
+  .voice-report-header h1 {
+    font-size: 20px;
+  }
+
+  .header-tag {
+    font-size: 11px;
+    padding: 5px 10px;
+  }
+
+  .audio-mode-tabs {
+    flex-direction: column;
+  }
+
+  .mode-tab-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .preview-action-row {
+    flex-direction: column;
+  }
+
+  .btn-secondary-action,
+  .btn-primary-action {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .record-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .upload-dropzone {
+    padding: 24px 16px;
+  }
+
+  .report-card {
+    padding: 14px 12px;
+  }
+
+  .diagnostic-metrics-grid {
+    grid-template-columns: 1fr;
+  }
+}

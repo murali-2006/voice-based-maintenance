@@ -253,14 +253,25 @@
 
 @media (max-width: 400px) {
   .navbar {
-    padding: 9px 14px;
+    min-height: 60px;
+    padding: 8px 10px 8px 62px;
+    gap: 8px;
   }
 
   .navbar-title h3 {
-    font-size: 15px;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .navbar-title span {
     display: none;
+  }
+
+  .user-icon {
+    width: 32px;
+    height: 32px;
+    padding: 6px;
   }
 }

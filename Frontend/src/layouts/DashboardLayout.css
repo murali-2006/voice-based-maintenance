@@ -58,6 +58,8 @@
   overflow-x: hidden;
 
   background: #f1f5f9;
+
+  padding: 24px 28px;
 }
 
 /* =========================================================
@@ -91,5 +93,15 @@
     width: 100%;
 
     margin-left: 0;
+  }
+
+  .dashboard-content {
+    padding: 18px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-content {
+    padding: 14px 12px;
   }
 }
