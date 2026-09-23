@@ -35,28 +35,45 @@ if (!credential && process.env.FIREBASE_PRIVATE_KEY && process.env.FIREBASE_CLIE
   }
 }
 
-// 3. Fallback to local serviceAccountKey.json for offline development
+// 3. Check for Secret File on Render or local filesystem
 if (!credential) {
-  const localKeyPath = path.join(__dirname, "serviceAccountKey.json");
-  if (fs.existsSync(localKeyPath)) {
-    try {
-      const serviceAccount = require(localKeyPath);
-      credential = cert(serviceAccount);
-      console.log("Firebase Admin initialized from local serviceAccountKey.json file.");
-    } catch (err) {
-      console.error("Failed to load local serviceAccountKey.json:", err.message);
+  const candidateKeyPaths = [
+    process.env.FIREBASE_KEY_PATH,
+    process.env.FIREBASE_SERVICE_ACCOUNT_PATH,
+    "/etc/secrets/serviceAccountKey.json",
+    path.join(__dirname, "serviceAccountKey.json"),
+    path.join(process.cwd(), "serviceAccountKey.json"),
+    path.join(process.cwd(), "Backend", "serviceAccountKey.json"),
+  ].filter(Boolean);
+
+  for (const candidatePath of candidateKeyPaths) {
+    if (fs.existsSync(candidatePath)) {
+      try {
+        const fileContent = fs.readFileSync(candidatePath, "utf-8");
+        const serviceAccount = JSON.parse(fileContent);
+        credential = cert(serviceAccount);
+        console.log(`Firebase Admin initialized successfully from file: ${candidatePath}`);
+        break;
+      } catch (err) {
+        console.error(`Failed to parse Firebase credential file at ${candidatePath}:`, err.message);
+      }
     }
   }
 }
 
 if (!credential) {
-  console.warn("Warning: No Firebase credentials found. Database operations will fail unless credentials are provided.");
+  const errMsg =
+    "FATAL ERROR: No Firebase credentials found! " +
+    "Please provide FIREBASE_SERVICE_ACCOUNT environment variable or configure serviceAccountKey.json in Render Secret Files (/etc/secrets/serviceAccountKey.json).";
+  console.error(errMsg);
+  throw new Error(errMsg);
 }
 
-if (!getApps().length && credential) {
+if (!getApps().length) {
   initializeApp({
     credential,
   });
+  console.log("Firebase App initialized successfully.");
 }
 
 const db = getFirestore();

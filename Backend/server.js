@@ -49,12 +49,30 @@ async function callGeminiWithFallback(contents, config = {}) {
   throw lastErr || new Error("All Gemini candidate models failed");
 }
 
-// ==========================================
-// MIDDLEWARE
-// ==========================================
+const allowedOrigins = [
+  "https://voice-based-maintenance-123.vercel.app",
+  process.env.FRONTEND_URL,
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "http://127.0.0.1:5173",
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: true,
+    origin: (origin, callback) => {
+      // Allow requests with no origin (e.g. mobile apps, curl, uptime monitoring)
+      if (!origin) return callback(null, true);
+
+      if (
+        allowedOrigins.includes(origin) ||
+        origin.endsWith(".vercel.app") ||
+        /^http:\/\/localhost(:\d+)?$/.test(origin) ||
+        /^http:\/\/127\.0\.0\.1(:\d+)?$/.test(origin)
+      ) {
+        return callback(null, true);
+      }
+      return callback(new Error(`CORS origin '${origin}' not allowed by server.`));
+    },
     credentials: true,
   })
 );
