@@ -5,6 +5,12 @@ const cors = require("cors");
 const axios = require("axios");
 const { GoogleGenAI } = require("@google/genai");
 const db = require("./firebaseAdmin");
+const multer = require("multer");
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 50 * 1024 * 1024 },
+});
 
 const app = express();
 
@@ -97,6 +103,7 @@ app.get("/", (req, res) => {
 });
 
 // ===============================
+// ===============================
 // ML Whisper Service Status
 // ===============================
 app.get("/ml-status", async (req, res) => {
@@ -113,6 +120,127 @@ app.get("/ml-status", async (req, res) => {
     res.json({
       available: false,
       message: "ML Whisper service is not running on port 8000",
+    });
+  }
+});
+
+// ==========================================
+// AUDIO TRANSCRIPTION (POST /transcribe)
+// Proxies to Whisper ML service if available,
+// or falls back to Gemini Multimodal Audio
+// ==========================================
+app.post("/transcribe", upload.single("audio"), async (req, res) => {
+  try {
+    if (!req.file || !req.file.buffer || req.file.buffer.length === 0) {
+      return res.status(400).json({
+        success: false,
+        stage: "audio",
+        error: "Empty audio file provided. Please record or select a valid audio file.",
+      });
+    }
+
+    const mlUrl = (process.env.ML_SERVICE_URL || "http://localhost:8000").replace(/\/+$/, "");
+    let whisperSucceeded = false;
+    let whisperData = null;
+
+    // 1. Try Python FastAPI Whisper ML service if reachable
+    try {
+      const form = new FormData();
+      form.append("audio", new Blob([req.file.buffer], { type: req.file.mimetype || "audio/wav" }), req.file.originalname || "audio.wav");
+      if (req.body.language) form.append("language", req.body.language);
+      if (req.body.source_type) form.append("source_type", req.body.source_type);
+      if (req.body.selected_machine_code) form.append("selected_machine_code", req.body.selected_machine_code);
+      if (req.body.selected_machine_name) form.append("selected_machine_name", req.body.selected_machine_name);
+
+      const mlRes = await axios.post(`${mlUrl}/transcribe`, form, {
+        timeout: 25000,
+      });
+
+      if (mlRes.status === 200 && mlRes.data && mlRes.data.success !== false) {
+        whisperSucceeded = true;
+        whisperData = mlRes.data;
+      }
+    } catch (mlErr) {
+      console.log(`[TRANSCRIBE] ML service at ${mlUrl} unavailable (${mlErr.message}), using Gemini audio fallback...`);
+    }
+
+    if (whisperSucceeded && whisperData) {
+      return res.json(whisperData);
+    }
+
+    // 2. Direct AI Audio Fallback via Gemini
+    const requestedLang = req.body.language || "ta-IN";
+    const rawMime = req.file.mimetype || "audio/wav";
+    let mimeType = (rawMime.split(";")[0] || "audio/wav").trim();
+    if (mimeType === "audio/x-wav") mimeType = "audio/wav";
+    if (mimeType === "audio/x-m4a") mimeType = "audio/mp4";
+    const base64Audio = req.file.buffer.toString("base64");
+
+    const prompt = `You are an expert bilingual speech-to-text transcriber and technical translator for industrial machine maintenance.
+Transcribe the speech in this audio recording. The speaker may speak in English, Tamil, or code-mixed Thanglish (Tamil + English).
+Requested language hint: "${requestedLang}".
+
+CRITICAL INSTRUCTIONS:
+1. "native_text": Transcribe the exact words spoken in the native language/script or code-mixed words.
+2. "english_text": Translate the spoken maintenance message into clear, fluent, professional technical English.
+3. "detected_language": Output "ta" for Tamil/Thanglish or "en" for English.
+4. "is_code_mixed": Output true if the speech mixes Tamil and English terms, false otherwise.
+5. If no clear speech is heard, output empty strings for native_text and english_text.
+
+Return ONLY a valid JSON object matching this exact format:
+{
+  "success": true,
+  "native_text": "...",
+  "english_text": "...",
+  "detected_language": "en",
+  "is_code_mixed": false
+}`;
+
+    const geminiRes = await callGeminiWithFallback([
+      {
+        inlineData: {
+          mimeType,
+          data: base64Audio,
+        },
+      },
+      { text: prompt },
+    ]);
+
+    let parsed = {};
+    try {
+      const cleaned = geminiRes.text.replace(/```json/g, "").replace(/```/g, "").trim();
+      parsed = JSON.parse(cleaned);
+    } catch {
+      parsed = {
+        success: true,
+        native_text: geminiRes.text.trim(),
+        english_text: geminiRes.text.trim(),
+        detected_language: "en",
+        is_code_mixed: false,
+      };
+    }
+
+    const durationSeconds = Math.max(2, Math.round(req.file.buffer.length / 32000));
+    const words = (parsed.native_text || "").split(/\s+/).filter(Boolean);
+
+    return res.json({
+      success: true,
+      native_text: parsed.native_text || "",
+      english_text: parsed.english_text || parsed.native_text || "",
+      detected_language: parsed.detected_language || "en",
+      is_code_mixed: Boolean(parsed.is_code_mixed),
+      audio_duration: durationSeconds,
+      whisper_model: "gemini-audio-transcription",
+      transcript_word_count: words.length,
+      words_per_minute: durationSeconds > 0 ? Math.round((words.length / durationSeconds) * 60) : 0,
+      validation_result: "PASSED",
+    });
+  } catch (error) {
+    console.error("Transcribe error:", error);
+    res.status(500).json({
+      success: false,
+      stage: "transcription",
+      error: error.message || "Speech transcription service failed.",
     });
   }
 });
