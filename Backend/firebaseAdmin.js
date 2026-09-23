@@ -14,6 +14,12 @@ if (process.env.FIREBASE_SERVICE_ACCOUNT) {
       raw = Buffer.from(raw, "base64").toString("utf-8");
     }
     const serviceAccount = JSON.parse(raw);
+    // Sanitize PEM private key newlines (critical for environment variables)
+    if (serviceAccount && typeof serviceAccount.private_key === "string") {
+      serviceAccount.private_key = serviceAccount.private_key
+        .replace(/\\n/g, "\n")
+        .replace(/\\r/g, "");
+    }
     credential = cert(serviceAccount);
     console.log("Firebase Admin initialized from FIREBASE_SERVICE_ACCOUNT environment variable.");
   } catch (err) {
@@ -51,6 +57,11 @@ if (!credential) {
       try {
         const fileContent = fs.readFileSync(candidatePath, "utf-8");
         const serviceAccount = JSON.parse(fileContent);
+        if (serviceAccount && typeof serviceAccount.private_key === "string") {
+          serviceAccount.private_key = serviceAccount.private_key
+            .replace(/\\n/g, "\n")
+            .replace(/\\r/g, "");
+        }
         credential = cert(serviceAccount);
         console.log(`Firebase Admin initialized successfully from file: ${candidatePath}`);
         break;
