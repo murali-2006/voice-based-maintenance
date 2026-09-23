@@ -223,37 +223,133 @@
 }
 
 /* =========================================================
-   MOBILE
+   MOBILE DRAWER & CONTROLS (DESKTOP DEFAULT: HIDDEN)
+   ========================================================= */
+
+.officer-mobile-toggle {
+  display: none;
+}
+
+.officer-sidebar-overlay {
+  display: none;
+}
+
+.officer-sidebar-close {
+  display: none;
+}
+
+.officer-sidebar-header {
+  display: block;
+}
+
+/* =========================================================
+   MOBILE RESPONSIVE
    ========================================================= */
 
 @media (max-width: 768px) {
-  .officer-sidebar {
-    width: 230px;
+  .officer-mobile-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 14px;
+    left: 14px;
+    width: 42px;
+    height: 42px;
+    background: #0b1f33;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 9px;
+    cursor: pointer;
+    z-index: 1001;
+    box-shadow: 0 3px 12px rgba(11, 31, 51, 0.25);
+    transition: background 0.2s ease, transform 0.2s ease;
   }
 
-  .officer-logo {
-    padding: 21px 18px;
+  .officer-mobile-toggle:hover {
+    background: #14314f;
+    transform: scale(1.03);
+  }
 
+  .officer-sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(11, 31, 51, 0.6);
+    backdrop-filter: blur(2px);
+    z-index: 1050;
+    animation: officerFadeInOverlay 0.25s ease forwards;
+  }
+
+  .officer-sidebar {
+    width: 80vw;
+    max-width: 320px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1100;
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: none;
+  }
+
+  .officer-sidebar.open {
+    transform: translateX(0);
+    box-shadow: 6px 0 28px rgba(0, 0, 0, 0.45);
+  }
+
+  .officer-sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .officer-sidebar-header .officer-logo {
+    border-bottom: none;
+    padding: 20px 18px;
     font-size: 18px;
+  }
+
+  .officer-sidebar-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    color: #b8c7d6;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .officer-sidebar-close:hover {
+    background: rgba(255, 255, 255, 0.16);
+    color: #ffffff;
   }
 
   .officer-logout {
     width: calc(100% - 20px);
-
     margin: 10px;
-
     padding: 10px 12px;
   }
 
   .officer-nav {
-    padding: 8px 10px 16px;
+    padding: 16px 10px;
   }
 
   .officer-nav a {
     min-height: 44px;
-
     padding: 0 12px;
-
     font-size: 13px;
   }
+}
+
+@keyframes officerFadeInOverlay {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }

@@ -350,13 +350,14 @@
 
 @media (max-width: 768px) {
   .officer-reports-main {
-    width: calc(100% - 230px);
+    width: 100%;
 
-    margin-left: 230px;
+    margin-left: 0;
   }
 
   .officer-reports-page {
-    padding: 20px;
+    padding: 20px 16px;
+    padding-top: 68px;
   }
 
   .officer-reports-header {

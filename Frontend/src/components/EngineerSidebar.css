@@ -219,18 +219,113 @@
 }
 
 /* =========================================================
-   MOBILE
+   MOBILE DRAWER & CONTROLS (DESKTOP DEFAULT: HIDDEN)
+   ========================================================= */
+
+.engineer-mobile-toggle {
+  display: none;
+}
+
+.engineer-sidebar-overlay {
+  display: none;
+}
+
+.engineer-sidebar-close {
+  display: none;
+}
+
+.engineer-sidebar-header {
+  display: block;
+}
+
+/* =========================================================
+   MOBILE RESPONSIVE
    ========================================================= */
 
 @media (max-width: 768px) {
-  .engineer-sidebar {
-    width: 230px;
+  .engineer-mobile-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 14px;
+    left: 14px;
+    width: 42px;
+    height: 42px;
+    background: #0b1f33;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 9px;
+    cursor: pointer;
+    z-index: 1001;
+    box-shadow: 0 3px 12px rgba(11, 31, 51, 0.25);
+    transition: background 0.2s ease, transform 0.2s ease;
   }
 
-  .engineer-logo {
-    padding: 21px 18px;
+  .engineer-mobile-toggle:hover {
+    background: #14314f;
+    transform: scale(1.03);
+  }
 
+  .engineer-sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(11, 31, 51, 0.6);
+    backdrop-filter: blur(2px);
+    z-index: 1050;
+    animation: engineerFadeInOverlay 0.25s ease forwards;
+  }
+
+  .engineer-sidebar {
+    width: 80vw;
+    max-width: 320px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1100;
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: none;
+  }
+
+  .engineer-sidebar.open {
+    transform: translateX(0);
+    box-shadow: 6px 0 28px rgba(0, 0, 0, 0.45);
+  }
+
+  .engineer-sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .engineer-sidebar-header .engineer-logo {
+    border-bottom: none;
+    padding: 20px 18px;
     font-size: 18px;
+  }
+
+  .engineer-sidebar-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    color: #b8c7d6;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .engineer-sidebar-close:hover {
+    background: rgba(255, 255, 255, 0.16);
+    color: #ffffff;
   }
 
   .engineer-nav {
@@ -239,17 +334,18 @@
 
   .engineer-nav a {
     min-height: 44px;
-
     padding: 0 12px;
-
     font-size: 13px;
   }
 
   .engineer-logout {
     width: calc(100% - 20px);
-
     margin: 10px;
-
     padding: 10px 12px;
   }
+}
+
+@keyframes engineerFadeInOverlay {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
