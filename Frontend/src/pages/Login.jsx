@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Factory,
@@ -19,11 +19,19 @@ function Login() {
     useState(false);
 
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Pre-warm backend in the background as soon as user opens login page
+  useEffect(() => {
+    fetch(`${API_BASE_URL}/health`).catch(() => {});
+  }, []);
 
   const handleLogin = async (event) => {
     event.preventDefault();
+    if (isLoading) return;
 
     setError("");
+    setIsLoading(true);
 
     try {
       const response = await fetch(
@@ -49,7 +57,7 @@ function Login() {
           data.message ||
           "Invalid email or password"
         );
-
+        setIsLoading(false);
         return;
       }
 
@@ -87,6 +95,7 @@ function Login() {
       setError(
         "Unable to connect to the server. Please try again."
       );
+      setIsLoading(false);
     }
   };
 
@@ -181,8 +190,9 @@ function Login() {
           <button
             type="submit"
             className="login-button"
+            disabled={isLoading}
           >
-            Login
+            {isLoading ? "Signing in..." : "Login"}
           </button>
 
         </form>

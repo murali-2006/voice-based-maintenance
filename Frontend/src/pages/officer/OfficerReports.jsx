@@ -8,6 +8,7 @@ function OfficerReports() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
     const loadReports = async () => {
       try {
         const response = await fetch(
@@ -22,18 +23,25 @@ function OfficerReports() {
 
         const data = await response.json();
 
-        setReports(data);
+        if (isMounted) {
+          setReports(Array.isArray(data) ? data : []);
+        }
       } catch (error) {
         console.error(
           "Error fetching reports:",
           error
         );
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
     loadReports();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (

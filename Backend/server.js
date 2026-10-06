@@ -1579,41 +1579,36 @@ app.post("/reports", async (req, res) => {
 // ==========================================
 app.get("/reports", async (req, res) => {
   try {
-    const snapshot =
-      await db
-        .collection(
-          "maintenance_reports"
-        )
-        .orderBy(
-          "created_at",
-          "desc"
-        )
-        .get();
+    // Optimized: Fetch reports and registered machines in parallel (eliminates N+1 serial queries)
+    const [snapshot, machinesSnapshot] = await Promise.all([
+      db
+        .collection("maintenance_reports")
+        .orderBy("created_at", "desc")
+        .get(),
+      db.collection("machines").get(),
+    ]);
+
+    // Build lookup maps for machines by numeric machine_id and machine_code for O(1) in-memory resolution
+    const machinesById = new Map();
+    const machinesByCode = new Map();
+    for (const mDoc of machinesSnapshot.docs) {
+      const mData = mDoc.data();
+      if (mData.machine_id !== undefined && mData.machine_id !== null) {
+        machinesById.set(Number(mData.machine_id), mData);
+      }
+      if (mData.machine_code) {
+        machinesByCode.set(String(mData.machine_code).trim().toUpperCase(), mData);
+      }
+    }
 
     const reports = [];
 
-    for (
-      const doc of snapshot.docs
-    ) {
-      const data =
-        doc.data();
+    for (const doc of snapshot.docs) {
+      const data = doc.data();
 
       // --------------------------------------
-      // MACHINE DETAILS
+      // MACHINE DETAILS (In-memory O(1) lookup)
       // --------------------------------------
-      const machineSnapshot =
-        await db
-          .collection("machines")
-          .where(
-            "machine_id",
-            "==",
-            Number(
-              data.machine_id
-            )
-          )
-          .limit(1)
-          .get();
-
       let machineName =
         data.machine_name ||
         "Unknown Machine";
@@ -1622,24 +1617,20 @@ app.get("/reports", async (req, res) => {
         data.machine_code ||
         "N/A";
 
-      if (
-        !machineSnapshot.empty
-      ) {
-        const machineData =
-          machineSnapshot.docs[0].data();
+      const matchedMachine =
+        (data.machine_id !== undefined && data.machine_id !== null && machinesById.get(Number(data.machine_id))) ||
+        (data.machine_code && machinesByCode.get(String(data.machine_code).trim().toUpperCase()));
 
+      if (matchedMachine) {
         machineName =
-          machineName !==
-          "Unknown Machine"
+          machineName !== "Unknown Machine"
             ? machineName
-            : machineData.machine_name ||
-              "Unknown Machine";
+            : matchedMachine.machine_name || "Unknown Machine";
 
         machineCode =
           machineCode !== "N/A"
             ? machineCode
-            : machineData.machine_code ||
-              "N/A";
+            : matchedMachine.machine_code || "N/A";
       }
 
       // --------------------------------------
@@ -2372,10 +2363,11 @@ User Query: "${rawQuery.replace(/"/g, '\\"')}"
     // ----------------------------------------------------
     // STEP 2: QUERY FIRESTORE & RESOLVE REGISTERED MACHINES
     // ----------------------------------------------------
-    const machinesSnapshot = await db.collection("machines").get();
+    const [machinesSnapshot, reportsSnapshot] = await Promise.all([
+      db.collection("machines").get(),
+      db.collection("maintenance_reports").get(),
+    ]);
     const registeredMachines = machinesSnapshot.docs.map((d) => d.data());
-
-    const reportsSnapshot = await db.collection("maintenance_reports").get();
     let allReports = reportsSnapshot.docs.map((doc) => {
       const data = doc.data();
       const createdAt = convertTimestamp(data.created_at);
@@ -3701,36 +3693,29 @@ app.post("/login", async (req, res) => {
       });
     }
 
-    const snapshot =
-      await db
-        .collection("users")
-        .where(
-          "email",
-          "==",
-          email
-        )
-        .where(
-          "password",
-          "==",
-          password
-        )
-        .limit(1)
-        .get();
+    const trimmedEmail = typeof email === "string" ? email.trim() : "";
+    const cleanPassword = typeof password === "string" ? password : "";
 
-    if (
-      snapshot.empty
-    ) {
+    const snapshot = await db
+      .collection("users")
+      .where("email", "==", trimmedEmail)
+      .limit(1)
+      .get();
+
+    if (snapshot.empty) {
       return res.status(401).json({
-        message:
-          "Invalid email or password",
+        message: "Invalid email or password",
       });
     }
 
-    const userDoc =
-      snapshot.docs[0];
+    const userDoc = snapshot.docs[0];
+    const userData = userDoc.data();
 
-    const userData =
-      userDoc.data();
+    if (userData.password !== cleanPassword) {
+      return res.status(401).json({
+        message: "Invalid email or password",
+      });
+    }
 
     res.json({
       message:

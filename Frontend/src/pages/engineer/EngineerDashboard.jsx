@@ -16,20 +16,32 @@ function EngineerDashboard() {
   const navigate = useNavigate();
 
   const [reports, setReports] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // Get reports from the backend API
   useEffect(() => {
+    let isMounted = true;
     fetch(`${API_BASE_URL}/reports`)
       .then((response) => response.json())
       .then((data) => {
-        setReports(data);
+        if (isMounted) {
+          setReports(Array.isArray(data) ? data : []);
+          setLoading(false);
+        }
       })
       .catch((error) => {
         console.error(
           "Error fetching reports:",
           error
         );
+        if (isMounted) {
+          setLoading(false);
+        }
       });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const totalReports = reports.length;
@@ -76,7 +88,7 @@ function EngineerDashboard() {
 
             <div>
               <h3>Total Reports</h3>
-              <h2>{totalReports}</h2>
+              <h2>{loading ? "..." : totalReports}</h2>
             </div>
           </div>
 
@@ -88,7 +100,7 @@ function EngineerDashboard() {
 
             <div>
               <h3>Machines Checked</h3>
-              <h2>{machines.length}</h2>
+              <h2>{loading ? "..." : machines.length}</h2>
             </div>
           </div>
 
@@ -100,7 +112,7 @@ function EngineerDashboard() {
 
             <div>
               <h3>Pending Reports</h3>
-              <h2>{pendingReports}</h2>
+              <h2>{loading ? "..." : pendingReports}</h2>
             </div>
           </div>
 
